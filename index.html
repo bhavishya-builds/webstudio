@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ profile.name }} — Websites for Local Vendors &amp; People</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="brand" data-tab-jump="about">{{ profile.brand }}.</a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#section-tabs" data-tab-jump="about">About Me</a>
+        <a href="#section-tabs" data-tab-jump="work">What I Do &amp; Websites</a>
+      </nav>
+
+      <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="wa-link">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div class="hero-copy pop-3d">
+        <p class="eyebrow">College student &middot; Web developer</p>
+        <h1>Bringing local businesses and big ideas online—one website at a time.</h1>
+        <p class="hero-desc">
+          Hi, I'm {{ profile.name }}. I'm a college student making clean, practical websites for local shops, small businesses, and individuals—with direct WhatsApp contact so people can reach you easily.
+        </p>
+
+        <div class="hero-btns">
+          <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-terracotta">
+            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+          </a>
+          <a href="#section-tabs" data-tab-jump="work" class="btn btn-sand">
+            See what I build
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-photo-wrap pop-3d">
+        <div class="photo-card hover-block">
+          <img src="{{ profile.hero_photo }}" alt="Laptop on a warm desk while working on a website">
+          <p class="photo-note">Simple websites for shops, services, and personal pages.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Two Tabs -->
+  <main id="section-tabs" class="main-area">
+    <div class="container">
+
+      <div class="tabs pop-3d" role="tablist" aria-label="Portfolio tabs">
+        <button class="tab active" role="tab" aria-selected="true" data-tab="about">
+          About Me
+        </button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="work">
+          What I Do &amp; Websites I Build
+        </button>
+      </div>
+
+      <!-- TAB 1: ABOUT ME (~1.5x scroll depth) -->
+      <div id="tab-about" class="panel active">
+        <div class="panel-head pop-3d">
+          <h2>About Me</h2>
+          <p>A college student who builds websites for local vendors and anyone looking to get online.</p>
+        </div>
+
+        <div class="grid-3">
+          {% for item in profile.about_points %}
+          <article class="card hover-block pop-3d">
+            <div class="card-icon"><i class="fa-solid {{ item.icon }}"></i></div>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="panel-head sub-head pop-3d">
+          <h2>How We Keep It Simple</h2>
+          <p>No complicated steps—just a clear conversation and a working website.</p>
+        </div>
+
+        <div class="grid-3">
+          {% for step in profile.how_i_work %}
+          <article class="card hover-block pop-3d">
+            <span class="step-num">{{ step.step }}</span>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.desc }}</p>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="note-banner hover-block pop-3d">
+          <div>
+            <h3>Who I usually work with</h3>
+            <p>Local vendors, small businesses, and individuals who want a clean page without dealing with big agencies.</p>
+          </div>
+          <div class="chips">
+            {% for group in profile.who_i_help %}
+            <span>{{ group }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: WHAT I DO & WEBSITES I BUILD (~1.5x scroll depth) -->
+      <div id="tab-work" class="panel">
+        <div class="panel-head pop-3d">
+          <h2>What I Do</h2>
+          <p>Practical web pages for local shops, small businesses, and personal projects.</p>
+        </div>
+
+        <div class="grid-3">
+          {% for service in profile.services %}
+          <article class="card hover-block pop-3d">
+            <div class="card-icon"><i class="fa-solid {{ service.icon }}"></i></div>
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.desc }}</p>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="panel-head sub-head pop-3d">
+          <h2>Websites I Build</h2>
+          <p>Examples of pages and layouts I put together for local vendors and people.</p>
+        </div>
+
+        <div class="grid-2">
+          {% for site in profile.examples %}
+          <article class="card example-card hover-block pop-3d">
+            <div class="example-img">
+              <img src="{{ site.image }}" alt="{{ site.title }}" loading="lazy">
+            </div>
+            <div class="example-body">
+              <span class="tag">{{ site.tag }}</span>
+              <h3>{{ site.title }}</h3>
+              <p>{{ site.desc }}</p>
+              <div class="chips">
+                {% for note in site.notes %}
+                <span>{{ note }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Contact Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="contact-box hover-block pop-3d">
+        <div>
+          <h2>Want a website made?</h2>
+          <p>Send a message on WhatsApp and tell me a bit about your shop or what you need.</p>
+        </div>
+        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-terracotta">
+          <i class="fa-brands fa-whatsapp"></i> Message on WhatsApp
+        </a>
+      </div>
+
+      <div class="footer-base">
+        <span>{{ profile.name }} &middot; College student &amp; web developer</span>
+        <span>&copy; {{ current_year }}</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile WhatsApp Button -->
+  <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="mobile-wa" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".panel");
+    const jumps = document.querySelectorAll("[data-tab-jump]");
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -20px 0px" }
+    );
+
+    document.querySelectorAll(".pop-3d").forEach((el, idx) => {
+      el.style.transitionDelay = `${(idx % 3) * 65}ms`;
+      io.observe(el);
+    });
+
+    function selectTab(name) {
+      tabs.forEach((t) => {
+        const active = t.dataset.tab === name;
+        t.classList.toggle("active", active);
+        t.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      panels.forEach((p) => {
+        const active = p.id === `tab-${name}`;
+        p.classList.toggle("active", active);
+        if (active) {
+          p.querySelectorAll(".pop-3d").forEach((el) => {
+            el.classList.remove("in-view");
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => el.classList.add("in-view"));
+            });
+          });
+        }
+      });
+    }
+
+    tabs.forEach((t) => t.addEventListener("click", () => selectTab(t.dataset.tab)));
+    jumps.forEach((j) => j.addEventListener("click", () => selectTab(j.dataset.tabJump)));
+  </script>
+
+</body>
+</html>
